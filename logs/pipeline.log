@@ -1,0 +1,197 @@
+2026-06-13 17:19:16 [INFO] main: ============================================================
+2026-06-13 17:19:16 [INFO] main: DE-LU DAY-AHEAD PRICE FORECASTING PIPELINE
+2026-06-13 17:19:16 [INFO] main: Data Source: ENTSO-E Transparency Platform API
+2026-06-13 17:19:16 [INFO] main: ============================================================
+2026-06-13 17:19:17 [INFO] src.ingest: ============================================================
+2026-06-13 17:19:17 [INFO] src.ingest: STEP 1a: DATA INGESTION (ENTSO-E API)
+2026-06-13 17:19:17 [INFO] src.ingest: ============================================================
+2026-06-13 17:19:17 [INFO] src.ingest: Market: 10Y1001A1001A82H (DE-LU)
+2026-06-13 17:19:17 [INFO] src.ingest: Period: 2024-06-01 → 2026-06-01
+2026-06-13 17:19:17 [INFO] src.ingest: Source: ENTSO-E Transparency Platform REST API
+2026-06-13 17:19:17 [INFO] src.ingest: Docs: https://documenter.getpostman.com/view/7009892/2s93JtP3F6
+2026-06-13 17:19:17 [INFO] src.ingest:   Loaded from cache: entsoe_da_prices.csv (69774 rows)
+2026-06-13 17:19:17 [INFO] src.ingest:   Loaded from cache: entsoe_load.csv (17520 rows)
+2026-06-13 17:19:18 [INFO] src.ingest:   Loaded from cache: entsoe_wind.csv (17520 rows)
+2026-06-13 17:19:18 [INFO] src.ingest:   Loaded from cache: entsoe_solar.csv (17520 rows)
+2026-06-13 17:19:18 [INFO] src.ingest:   Loaded from cache: entsoe_gas.csv (17520 rows)
+2026-06-13 17:19:18 [INFO] src.ingest: 
+  Fetching forward-looking forecasts (DA wind/solar/load)...
+2026-06-13 17:19:18 [INFO] src.ingest:   Loaded from cache: entsoe_wind_forecast.csv (17520 rows)
+2026-06-13 17:19:18 [INFO] src.ingest:   Loaded from cache: entsoe_solar_forecast.csv (17519 rows)
+2026-06-13 17:19:18 [INFO] src.ingest:   Loaded from cache: entsoe_load_forecast.csv (17520 rows)
+2026-06-13 17:19:18 [INFO] src.ingest:   Added gas_mw: 17520 values
+2026-06-13 17:19:18 [INFO] src.ingest:   Added wind_forecast_mw: 17520 values
+2026-06-13 17:19:18 [INFO] src.ingest:   Added solar_forecast_mw: 10512 values
+2026-06-13 17:19:18 [INFO] src.ingest:   Added load_forecast_mw: 17519 values
+2026-06-13 17:19:18 [INFO] src.ingest: Aligned hourly dataset: 17520 complete rows (52254 non-overlapping source points excluded during alignment)
+2026-06-13 17:19:18 [INFO] src.ingest: Date range: 2024-06-01 00:00:00+02:00 → 2026-05-31 23:00:00+02:00
+2026-06-13 17:19:18 [INFO] src.ingest:   DST transition: 2024-10-27 has 25 hours
+2026-06-13 17:19:18 [INFO] src.ingest:   DST transition: 2025-03-30 has 23 hours
+2026-06-13 17:19:18 [INFO] src.ingest:   DST transition: 2025-10-26 has 25 hours
+2026-06-13 17:19:18 [INFO] src.ingest:   DST transition: 2026-03-29 has 23 hours
+2026-06-13 17:19:18 [INFO] src.ingest:   Found 4 DST transitions
+2026-06-13 17:19:18 [INFO] src.ingest: DST transitions found: 4
+2026-06-13 17:19:18 [INFO] src.ingest: Saved processed data → de_lu_hourly.parquet
+2026-06-13 17:19:18 [INFO] src.quality: ============================================================
+2026-06-13 17:19:18 [INFO] src.quality: DATA QUALITY ASSESSMENT
+2026-06-13 17:19:18 [INFO] src.quality: ============================================================
+2026-06-13 17:19:18 [INFO] src.quality: 
+[1] Missingness:
+2026-06-13 17:19:18 [INFO] src.quality:   price_eur_mwh: complete (0 missing)
+2026-06-13 17:19:18 [INFO] src.quality:   load_mw: complete (0 missing)
+2026-06-13 17:19:18 [INFO] src.quality:   wind_mw: complete (0 missing)
+2026-06-13 17:19:18 [INFO] src.quality:   solar_mw: complete (0 missing)
+2026-06-13 17:19:18 [INFO] src.quality:   wind_solar_mw: complete (0 missing)
+2026-06-13 17:19:18 [INFO] src.quality:   gas_mw: complete (0 missing)
+2026-06-13 17:19:18 [INFO] src.quality:   wind_forecast_mw: complete (0 missing)
+2026-06-13 17:19:18 [WARNING] src.quality:   solar_forecast_mw: 7008 missing (40.00%)
+2026-06-13 17:19:18 [WARNING] src.quality:   load_forecast_mw: 1 missing (0.01%)
+2026-06-13 17:19:18 [INFO] src.quality: 
+[2] Duplicates:
+2026-06-13 17:19:18 [INFO] src.quality:   No duplicate timestamps
+2026-06-13 17:19:18 [INFO] src.quality: 
+[3] Outliers:
+2026-06-13 17:19:18 [INFO] src.quality:   price_eur_mwh: all within [-500, 4000]
+2026-06-13 17:19:18 [INFO] src.quality:   load_mw: all within [25000, 85000]
+2026-06-13 17:19:18 [INFO] src.quality:   wind_mw: all within [0, 100000]
+2026-06-13 17:19:18 [INFO] src.quality:   solar_mw: all within [0, 100000]
+2026-06-13 17:19:18 [INFO] src.quality:   wind_solar_mw: all within [0, 100000]
+2026-06-13 17:19:18 [INFO] src.quality: 
+[4] DST transitions:
+2026-06-13 17:19:18 [INFO] src.quality:   DST transitions found: 4
+2026-06-13 17:19:18 [INFO] src.quality:     2024-10-27: 25h (fall-back (25h))
+2026-06-13 17:19:18 [INFO] src.quality:     2025-03-30: 23h (spring-forward (23h))
+2026-06-13 17:19:18 [INFO] src.quality:     2025-10-26: 25h (fall-back (25h))
+2026-06-13 17:19:18 [INFO] src.quality:     2026-03-29: 23h (spring-forward (23h))
+2026-06-13 17:19:18 [INFO] src.quality: 
+[5] Coverage:
+2026-06-13 17:19:18 [INFO] src.quality:   Coverage: 17520/17520 hours (100.0%)
+2026-06-13 17:19:18 [INFO] src.quality:   Range: 2024-06-01 00:00:00+02:00 → 2026-05-31 23:00:00+02:00
+2026-06-13 17:19:18 [INFO] src.quality: 
+[6] Gaps:
+2026-06-13 17:19:18 [INFO] src.quality:   No gaps in hourly time series
+2026-06-13 17:19:18 [INFO] src.quality: 
+QA report saved to: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/data_qa_report.md
+2026-06-13 17:19:18 [INFO] src.ai_qa: ============================================================
+2026-06-13 17:19:18 [INFO] src.ai_qa: STEP 4: AI-ACCELERATED WORKFLOW
+2026-06-13 17:19:18 [INFO] src.ai_qa: ============================================================
+2026-06-13 17:19:18 [INFO] src.ai_qa: Generating AI QA rules...
+2026-06-13 17:19:19 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-13 17:19:19 [INFO] src.ai_qa: LLM proposed 5 QA rules
+2026-06-13 17:19:19 [INFO] src.ai_qa: QA rules executed: 3 passed, 2 failed out of 5
+2026-06-13 17:19:19 [INFO] src.ai_qa: AI QA results appended to /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/data_qa_report.md
+2026-06-13 17:19:19 [INFO] src.ai_qa: Generating AI market commentary...
+2026-06-13 17:19:20 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-13 17:19:20 [INFO] src.ai_qa: AI workflow complete. Logs: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/logs/ai_run.jsonl
+2026-06-13 17:19:22 [INFO] src.features: ============================================================
+2026-06-13 17:19:22 [INFO] src.features: STEP 2a: FEATURE ENGINEERING
+2026-06-13 17:19:22 [INFO] src.features: ============================================================
+2026-06-13 17:19:22 [INFO] src.features:   Added gas generation lags (gas_lag_24h, gas_lag_168h)
+2026-06-13 17:19:22 [INFO] src.features:   Added forward-looking: wind_forecast_da, wind_forecast_error_lag24
+2026-06-13 17:19:22 [INFO] src.features:   Added forward-looking: solar_forecast_da
+2026-06-13 17:19:22 [INFO] src.features:   Added forward-looking: load_forecast_da, residual_load_forecast
+2026-06-13 17:19:22 [INFO] src.features:   Added: solar_forecast_error_lag24
+2026-06-13 17:19:22 [INFO] src.features:   Added: load_forecast_error_lag24
+2026-06-13 17:19:22 [INFO] src.features: Created 30 features
+2026-06-13 17:19:22 [INFO] src.features: Dropped 168 rows with insufficient lag history
+2026-06-13 17:19:22 [INFO] src.features: Final feature matrix: (17352, 39)
+2026-06-13 17:19:22 [INFO] src.forecast: ============================================================
+2026-06-13 17:19:22 [INFO] src.forecast: STEP 2b: FORECASTING (Dual Walk-Forward Validation)
+2026-06-13 17:19:22 [INFO] src.forecast: ============================================================
+2026-06-13 17:19:22 [INFO] src.forecast: Base features (lagged-only): 25
+2026-06-13 17:19:22 [INFO] src.forecast: All features (+ forward):    30
+2026-06-13 17:19:22 [INFO] src.forecast: 
+============================================================
+2026-06-13 17:19:22 [INFO] src.forecast: WALK-FORWARD: LightGBM (lagged-only) (25 features)
+2026-06-13 17:19:22 [INFO] src.forecast: ============================================================
+2026-06-13 17:19:22 [INFO] src.forecast: Features: ['hour', 'dow', 'month', 'is_weekend', 'is_peak', 'price_lag_24h', 'price_lag_48h', 'price_lag_168h', 'load_lag_24h', 'load_lag_168h', 'wind_lag_24h', 'wind_lag_168h', 'solar_lag_24h', 'solar_lag_168h', 'price_7d_mean', 'price_7d_std', 'wind_7d_mean', 'load_24h_mean', 'wind_penetration_lag24', 'renewable_share_lag24', 'price_spread_24_168', 'gas_lag_24h', 'gas_lag_168h', 'solar_forecast_error_lag24', 'load_forecast_error_lag24']
+2026-06-13 17:19:22 [INFO] src.forecast: Training starts: 2024-06-08
+2026-06-13 17:19:22 [INFO] src.forecast: Test starts: 2026-03-01 (90 days)
+2026-06-13 17:19:22 [INFO] src.forecast: Test ends: 2026-05-31
+2026-06-13 17:19:22 [INFO] src.forecast: Training window at test start: 632 days
+2026-06-13 17:20:13 [INFO] src.forecast:   Processed 10/92 test days...
+2026-06-13 17:21:05 [INFO] src.forecast:   Processed 20/92 test days...
+2026-06-13 17:21:57 [INFO] src.forecast:   Processed 30/92 test days...
+2026-06-13 17:22:51 [INFO] src.forecast:   Processed 40/92 test days...
+2026-06-13 17:23:42 [INFO] src.forecast:   Processed 50/92 test days...
+2026-06-13 17:24:37 [INFO] src.forecast:   Processed 60/92 test days...
+2026-06-13 17:25:31 [INFO] src.forecast:   Processed 70/92 test days...
+2026-06-13 17:26:24 [INFO] src.forecast:   Processed 80/92 test days...
+2026-06-13 17:27:18 [INFO] src.forecast:   Processed 90/92 test days...
+2026-06-13 17:27:29 [INFO] src.forecast:   Conformal calibration: lower adj=14.20, upper adj=10.88 €/MWh
+2026-06-13 17:27:29 [INFO] src.forecast:   Conformal PI coverage (out-of-calib): 93.3% (target: 96%)
+2026-06-13 17:27:29 [INFO] src.forecast:   Direction accuracy: 54.5%
+2026-06-13 17:27:29 [INFO] src.forecast:   Calm day MAE: 26.46, Volatile day MAE: 30.69
+2026-06-13 17:27:29 [INFO] src.forecast:   Peak MAE: 33.20, Off-peak MAE: 23.10
+2026-06-13 17:27:29 [INFO] src.forecast:   Diebold-Mariano: stat=10.70, p=0.0000 (significant)
+2026-06-13 17:27:29 [INFO] src.forecast: 
+LightGBM (lagged-only) walk-forward complete: 2207 hours predicted
+2026-06-13 17:27:29 [INFO] src.forecast: Seasonal Naive:  MAE=42.39, RMSE=60.66, P95=117.96 €/MWh
+2026-06-13 17:27:29 [INFO] src.forecast: Ridge:           MAE=30.15, RMSE=42.18, P95=84.10 €/MWh (28.9% improvement)
+2026-06-13 17:27:29 [INFO] src.forecast: LightGBM:        MAE=28.57, RMSE=40.91, P95=79.61 €/MWh
+2026-06-13 17:27:29 [INFO] src.forecast: Improvement:     32.6% MAE reduction vs naive
+2026-06-13 17:27:29 [INFO] src.forecast: Direction acc:   54.5%
+2026-06-13 17:27:29 [INFO] src.forecast: PI coverage:     92.9% (target: 96%, P2-P98)
+2026-06-13 17:28:01 [INFO] src.forecast:   SHAP values computed on 192 samples
+2026-06-13 17:28:01 [INFO] src.forecast: 
+============================================================
+2026-06-13 17:28:01 [INFO] src.forecast: WALK-FORWARD: LightGBM (+ DA forecasts) (30 features)
+2026-06-13 17:28:01 [INFO] src.forecast: ============================================================
+2026-06-13 17:28:01 [INFO] src.forecast: Features: ['hour', 'dow', 'month', 'is_weekend', 'is_peak', 'price_lag_24h', 'price_lag_48h', 'price_lag_168h', 'load_lag_24h', 'load_lag_168h', 'wind_lag_24h', 'wind_lag_168h', 'solar_lag_24h', 'solar_lag_168h', 'price_7d_mean', 'price_7d_std', 'wind_7d_mean', 'load_24h_mean', 'wind_penetration_lag24', 'renewable_share_lag24', 'price_spread_24_168', 'gas_lag_24h', 'gas_lag_168h', 'wind_forecast_da', 'wind_forecast_error_lag24', 'solar_forecast_da', 'solar_forecast_error_lag24', 'load_forecast_da', 'load_forecast_error_lag24', 'residual_load_forecast']
+2026-06-13 17:28:01 [INFO] src.forecast: Training starts: 2024-06-08
+2026-06-13 17:28:01 [INFO] src.forecast: Test starts: 2026-03-01 (90 days)
+2026-06-13 17:28:01 [INFO] src.forecast: Test ends: 2026-05-31
+2026-06-13 17:28:01 [INFO] src.forecast: Training window at test start: 632 days
+2026-06-13 17:28:55 [INFO] src.forecast:   Processed 10/92 test days...
+2026-06-13 17:29:48 [INFO] src.forecast:   Processed 20/92 test days...
+2026-06-13 17:30:43 [INFO] src.forecast:   Processed 30/92 test days...
+2026-06-13 17:31:38 [INFO] src.forecast:   Processed 40/92 test days...
+2026-06-13 17:32:32 [INFO] src.forecast:   Processed 50/92 test days...
+2026-06-13 17:33:26 [INFO] src.forecast:   Processed 60/92 test days...
+2026-06-13 17:34:20 [INFO] src.forecast:   Processed 70/92 test days...
+2026-06-13 17:35:15 [INFO] src.forecast:   Processed 80/92 test days...
+2026-06-13 17:36:10 [INFO] src.forecast:   Processed 90/92 test days...
+2026-06-13 17:36:21 [INFO] src.forecast:   Conformal calibration: lower adj=0.00, upper adj=5.46 €/MWh
+2026-06-13 17:36:21 [INFO] src.forecast:   Conformal PI coverage (out-of-calib): 93.3% (target: 96%)
+2026-06-13 17:36:21 [INFO] src.forecast:   Direction accuracy: 79.1%
+2026-06-13 17:36:21 [INFO] src.forecast:   Calm day MAE: 14.90, Volatile day MAE: 18.29
+2026-06-13 17:36:21 [INFO] src.forecast:   Peak MAE: 20.24, Off-peak MAE: 12.28
+2026-06-13 17:36:21 [INFO] src.forecast:   Diebold-Mariano: stat=14.97, p=0.0000 (significant)
+2026-06-13 17:36:21 [INFO] src.forecast: 
+LightGBM (+ DA forecasts) walk-forward complete: 2207 hours predicted
+2026-06-13 17:36:21 [INFO] src.forecast: Seasonal Naive:  MAE=42.39, RMSE=60.66, P95=117.96 €/MWh
+2026-06-13 17:36:21 [INFO] src.forecast: LightGBM:        MAE=16.59, RMSE=26.20, P95=45.34 €/MWh
+2026-06-13 17:36:21 [INFO] src.forecast: Improvement:     60.9% MAE reduction vs naive
+2026-06-13 17:36:21 [INFO] src.forecast: Direction acc:   79.1%
+2026-06-13 17:36:21 [INFO] src.forecast: PI coverage:     93.3% (target: 96%, P2-P98)
+2026-06-13 17:36:21 [INFO] src.forecast:   SHAP values computed on 192 samples
+2026-06-13 17:36:21 [INFO] src.forecast: Model results → /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/model_results.md
+2026-06-13 17:36:21 [INFO] src.forecast: submission.csv: 2207 rows (with P2/P98 intervals) → /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/submission.csv
+2026-06-13 17:36:21 [INFO] src.curve_view: ============================================================
+2026-06-13 17:36:21 [INFO] src.curve_view: STEP 3: PROMPT CURVE TRANSLATION
+2026-06-13 17:36:21 [INFO] src.curve_view: ============================================================
+2026-06-13 17:36:21 [INFO] src.curve_view: Trading signals: {'HOLD': 2105, 'SELL': 63, 'BUY': 39}
+2026-06-13 17:36:21 [INFO] src.curve_view: Signal backtest: hit rate=79.4%, avg win=€104.64, avg loss=€-20.42
+2026-06-13 17:36:21 [INFO] src.curve_view: Total P&L (1 MW per signal): €8047, Sharpe: 12.13
+2026-06-13 17:36:21 [INFO] src.curve_view: Curve translation appended to /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/model_results.md
+2026-06-13 17:36:21 [INFO] src.ai_qa: Generating AI feature explanations...
+2026-06-13 17:36:22 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-13 17:36:22 [INFO] src.ai_qa: Generating AI model diagnosis...
+2026-06-13 17:36:24 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-13 17:36:24 [INFO] src.ai_qa: AI feature explanations + diagnosis appended to /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/model_results.md
+2026-06-13 17:36:24 [INFO] src.figures: ============================================================
+2026-06-13 17:36:24 [INFO] src.figures: GENERATING FIGURES
+2026-06-13 17:36:24 [INFO] src.figures: ============================================================
+2026-06-13 17:36:24 [INFO] src.figures: Figure 1: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/da_prices_and_renewables.png
+2026-06-13 17:36:24 [INFO] src.figures: Figure 2: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/forecast_vs_actual.png
+2026-06-13 17:36:24 [INFO] src.figures: Figure 3: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/feature_importance.png
+2026-06-13 17:36:25 [INFO] src.figures: Figure 4: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/hourly_error_heatmap.png
+2026-06-13 17:36:25 [INFO] src.figures: Figure 5: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/error_distribution.png
+2026-06-13 17:36:25 [INFO] src.figures: Figure 6: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/temporal_stability.png
+2026-06-13 17:36:25 [INFO] src.figures: Figure 7: /Users/anthonybreeganzo.t/Idea/cobblestone-prep/de-forecast-entsoe/outputs/figures/shap_summary.png
+2026-06-13 17:36:25 [INFO] main: 
+============================================================
+2026-06-13 17:36:25 [INFO] main: PIPELINE COMPLETE
+2026-06-13 17:36:25 [INFO] main: Total time: 1028.6s
+2026-06-13 17:36:25 [INFO] main: Outputs: outputs/
+2026-06-13 17:36:25 [INFO] main: ============================================================
